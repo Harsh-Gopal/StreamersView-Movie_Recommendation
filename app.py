@@ -1,7 +1,7 @@
 '''
-Author: Bappy Ahmed
-Email: entbappy73@gmail.com
-Date: 2021-Nov-15
+By: Harsh Gopal
+Email: Hey.harshgopal@gmail.com
+Date: 2024-Oct-20
 '''
 
 import pickle
@@ -30,7 +30,7 @@ def recommend(movie):
     return recommended_movie_names,recommended_movie_posters
 
 
-st.header('Movie Recommender System Using Machine Learning')
+st.header('StreamerView : Movie Recommendation')
 movies = pickle.load(open('artifacts/movie_list.pkl','rb'))
 similarity = pickle.load(open('artifacts/similarity.pkl','rb'))
 
@@ -41,22 +41,13 @@ selected_movie = st.selectbox(
 )
 
 if st.button('Show Recommendation'):
-    recommended_movie_names,recommended_movie_posters = recommend(selected_movie)
-    col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-        st.text(recommended_movie_names[0])
-        st.image(recommended_movie_posters[0])
-    with col2:
-        st.text(recommended_movie_names[1])
-        st.image(recommended_movie_posters[1])
-
-    with col3:
-        st.text(recommended_movie_names[2])
-        st.image(recommended_movie_posters[2])
-    with col4:
-        st.text(recommended_movie_names[3])
-        st.image(recommended_movie_posters[3])
-    with col5:
-        st.text(recommended_movie_names[4])
-        st.image(recommended_movie_posters[4])
-
+    recommended_movie_names, recommended_movie_posters = recommend(selected_movie)
+    for name, poster in zip(recommended_movie_names, recommended_movie_posters):
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.image(poster)
+        with col2:
+            st.markdown(
+                f"<div style='display: flex; align-items: center; height: 10%; font-size: 40px; margin-left: 30px;'><b>{name}</b></div>", 
+                unsafe_allow_html=True
+            )
